@@ -11,7 +11,7 @@
     "install-all": "npm install && cd frontend && npm install",
     "setup-db": "node backend/scripts/setup-db.js",
     "seed": "node backend/scripts/seed.js",
-    "start": "npm run build && node backend/server.js"
+    "start": "npm run build && npm run seed && node backend/server.js"
   },
   "keywords": [
     "express",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "open": "^10.2.0"
   }
 }

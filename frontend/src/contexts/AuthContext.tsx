@@ -52,15 +52,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { 
+        email: email.trim().toLowerCase(), 
+        password 
+      });
+      
+      if (!response.data || !response.data.token || !response.data.user) {
+        throw new Error('Invalid response from server');
+      }
+
       const { token: newToken, user: userData } = response.data;
+
+      if (!newToken || !userData) {
+        throw new Error('Missing token or user data');
+      }
 
       localStorage.setItem('token', newToken);
       localStorage.setItem('user', JSON.stringify(userData));
       setToken(newToken);
       setUser(userData);
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Login failed');
+      const errorMessage = error.response?.data?.message || 
+                          error.message || 
+                          'Login failed. Please check your credentials and try again.';
+      throw new Error(errorMessage);
     }
   };
 

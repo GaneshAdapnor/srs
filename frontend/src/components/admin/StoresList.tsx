@@ -175,8 +175,8 @@ const StoresList: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Stores Management</h1>
-        <p className="mt-1 text-sm text-gray-600">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Stores Management</h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
           View and manage all stores in the system
         </p>
       </div>
@@ -185,7 +185,7 @@ const StoresList: React.FC = () => {
       <div className="modern-card p-6 shadow-modern">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Search Stores</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Stores</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,7 +201,7 @@ const StoresList: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sort By</label>
             <select
               className="modern-input w-full"
               value={filters.sortBy}
@@ -214,7 +214,7 @@ const StoresList: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Order</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Order</label>
             <select
               className="modern-input w-full"
               value={filters.sortOrder}
@@ -225,7 +225,7 @@ const StoresList: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Items per page</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Items per page</label>
             <select
               className="modern-input w-full"
               value={filters.limit}
@@ -242,8 +242,8 @@ const StoresList: React.FC = () => {
       {/* Stores Table */}
       <div className="modern-card overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Store Directory</h3>
-          <p className="text-sm text-gray-600">Browse and manage all stores</p>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Store Directory</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Browse and manage all stores</p>
         </div>
         <div className="divide-y divide-gray-200">
           {stores.map((store, index) => (
@@ -261,7 +261,7 @@ const StoresList: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900">
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                         {store.name}
                       </h3>
                       <div className="flex items-center space-x-2 mt-1">

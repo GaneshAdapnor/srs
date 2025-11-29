@@ -51,6 +51,27 @@ const seedDatabase = async () => {
         address: '654 Plaza Avenue, Downtown, DT 13579',
         password: 'StorePass123!',
         role: 'store_owner'
+      },
+      {
+        name: 'James Anderson',
+        email: 'james@store.com',
+        address: '1234 Commerce Boulevard, Business Park, BP 11111',
+        password: 'StorePass123!',
+        role: 'store_owner'
+      },
+      {
+        name: 'Lisa Thompson',
+        email: 'lisa@store.com',
+        address: '5678 Retail Plaza, Shopping Center, SC 22222',
+        password: 'StorePass123!',
+        role: 'store_owner'
+      },
+      {
+        name: 'Robert Kim',
+        email: 'robert@store.com',
+        address: '9012 Market Square, Trade District, TD 33333',
+        password: 'StorePass123!',
+        role: 'store_owner'
       }
     ]);
     console.log('Store owners created:', storeOwners.length);
@@ -110,6 +131,55 @@ const seedDatabase = async () => {
         name: 'Henry Taylor',
         email: 'henry@example.com',
         address: '222 Birch Road, Park Side, PS 88888',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Isabella Garcia',
+        email: 'isabella@example.com',
+        address: '444 Willow Way, Lakeside, LS 99999',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Jack Miller',
+        email: 'jack@example.com',
+        address: '666 Spruce Street, Mountain View, MV 10101',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Sophia White',
+        email: 'sophia@example.com',
+        address: '888 Cherry Lane, Sunset Hills, SH 20202',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Lucas Harris',
+        email: 'lucas@example.com',
+        address: '1010 Ash Avenue, Green Valley, GV 30303',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Olivia Clark',
+        email: 'olivia@example.com',
+        address: '1212 Poplar Drive, Riverside, RS 40404',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Noah Lewis',
+        email: 'noah@example.com',
+        address: '1414 Cypress Court, Forest Park, FP 50505',
+        password: 'UserPass123!',
+        role: 'user'
+      },
+      {
+        name: 'Emma Walker',
+        email: 'emma@example.com',
+        address: '1616 Magnolia Boulevard, Garden City, GC 60606',
         password: 'UserPass123!',
         role: 'user'
       }
@@ -184,6 +254,60 @@ const seedDatabase = async () => {
         email: 'garden@emilystore.com',
         address: '1000 Green Street, Nature District, ND 30303',
         ownerId: storeOwners[3].id
+      },
+      
+      // James's stores
+      {
+        name: 'Auto Parts Pro',
+        email: 'autoparts@jamesstore.com',
+        address: '1100 Motor Avenue, Auto District, AD 40404',
+        ownerId: storeOwners[4].id
+      },
+      {
+        name: 'Pet Paradise',
+        email: 'pets@jamesstore.com',
+        address: '1200 Animal Lane, Pet Center, PC 50505',
+        ownerId: storeOwners[4].id
+      },
+      
+      // Lisa's stores
+      {
+        name: 'Jewelry Gallery',
+        email: 'jewelry@lisastore.com',
+        address: '1300 Gem Street, Jewelry Quarter, JQ 60606',
+        ownerId: storeOwners[5].id
+      },
+      {
+        name: 'Toy Kingdom',
+        email: 'toys@lisastore.com',
+        address: '1400 Playground Drive, Fun Zone, FZ 70707',
+        ownerId: storeOwners[5].id
+      },
+      {
+        name: 'Art Supplies Central',
+        email: 'art@lisastore.com',
+        address: '1500 Creative Lane, Arts District, AR 80808',
+        ownerId: storeOwners[5].id
+      },
+      
+      // Robert's stores
+      {
+        name: 'Fitness First Gym',
+        email: 'fitness@robertstore.com',
+        address: '1600 Workout Way, Fitness Center, FC 90909',
+        ownerId: storeOwners[6].id
+      },
+      {
+        name: 'Music Store Pro',
+        email: 'music@robertstore.com',
+        address: '1700 Harmony Street, Music Plaza, MP 10110',
+        ownerId: storeOwners[6].id
+      },
+      {
+        name: 'Pharmacy Plus',
+        email: 'pharmacy@robertstore.com',
+        address: '1800 Health Avenue, Medical Center, MC 20220',
+        ownerId: storeOwners[6].id
       }
     ]);
     console.log('Stores created:', stores.length);
@@ -406,20 +530,215 @@ const seedDatabase = async () => {
         storeId: stores[9].id,
         rating: 4,
         comment: 'Love the variety of plants. Great for my garden project.'
+      },
+      
+      // Auto Parts Pro ratings
+      {
+        userId: normalUsers[2].id,
+        storeId: stores[10].id,
+        rating: 5,
+        comment: 'Best auto parts store! Found everything I needed for my car repair.'
+      },
+      {
+        userId: normalUsers[6].id,
+        storeId: stores[10].id,
+        rating: 4,
+        comment: 'Great selection of parts. Knowledgeable staff helped me find the right part.'
+      },
+      {
+        userId: normalUsers[8].id,
+        storeId: stores[10].id,
+        rating: 4,
+        comment: 'Good prices and quality parts. Will definitely come back.'
+      },
+      
+      // Pet Paradise ratings
+      {
+        userId: normalUsers[1].id,
+        storeId: stores[11].id,
+        rating: 5,
+        comment: 'Amazing pet store! My dog loves the treats and toys from here.'
+      },
+      {
+        userId: normalUsers[4].id,
+        storeId: stores[11].id,
+        rating: 5,
+        comment: 'Best pet store in town! Great selection and friendly staff.'
+      },
+      {
+        userId: normalUsers[9].id,
+        storeId: stores[11].id,
+        rating: 4,
+        comment: 'Good variety of pet supplies. Clean and well-organized store.'
+      },
+      {
+        userId: normalUsers[10].id,
+        storeId: stores[11].id,
+        rating: 4,
+        comment: 'Love shopping here for my cat. Quality products and good prices.'
+      },
+      
+      // Jewelry Gallery ratings
+      {
+        userId: normalUsers[0].id,
+        storeId: stores[12].id,
+        rating: 5,
+        comment: 'Beautiful jewelry collection! Found the perfect engagement ring here.'
+      },
+      {
+        userId: normalUsers[4].id,
+        storeId: stores[12].id,
+        rating: 5,
+        comment: 'Stunning pieces! The staff helped me choose the perfect necklace.'
+      },
+      {
+        userId: normalUsers[11].id,
+        storeId: stores[12].id,
+        rating: 4,
+        comment: 'Elegant jewelry and excellent customer service. Highly recommended.'
+      },
+      
+      // Toy Kingdom ratings
+      {
+        userId: normalUsers[3].id,
+        storeId: stores[13].id,
+        rating: 5,
+        comment: 'My kids love this store! Great selection of toys and games.'
+      },
+      {
+        userId: normalUsers[5].id,
+        storeId: stores[13].id,
+        rating: 4,
+        comment: 'Perfect for birthday gifts. Wide variety of toys for all ages.'
+      },
+      {
+        userId: normalUsers[12].id,
+        storeId: stores[13].id,
+        rating: 4,
+        comment: 'Great toy store with educational toys. Staff is very helpful.'
+      },
+      
+      // Art Supplies Central ratings
+      {
+        userId: normalUsers[6].id,
+        storeId: stores[14].id,
+        rating: 5,
+        comment: 'Perfect for artists! Great selection of paints, brushes, and canvases.'
+      },
+      {
+        userId: normalUsers[9].id,
+        storeId: stores[14].id,
+        rating: 4,
+        comment: 'Good quality art supplies. Reasonable prices for professional materials.'
+      },
+      {
+        userId: normalUsers[13].id,
+        storeId: stores[14].id,
+        rating: 5,
+        comment: 'Best art supply store! They have everything an artist needs.'
+      },
+      
+      // Fitness First Gym ratings
+      {
+        userId: normalUsers[2].id,
+        storeId: stores[15].id,
+        rating: 5,
+        comment: 'Excellent gym! Modern equipment and great trainers.'
+      },
+      {
+        userId: normalUsers[7].id,
+        storeId: stores[15].id,
+        rating: 4,
+        comment: 'Clean facility and friendly staff. Good variety of equipment.'
+      },
+      {
+        userId: normalUsers[10].id,
+        storeId: stores[15].id,
+        rating: 4,
+        comment: 'Great gym for workouts. Well-maintained and spacious.'
+      },
+      {
+        userId: normalUsers[14].id,
+        storeId: stores[15].id,
+        rating: 5,
+        comment: 'Best gym membership! Worth every penny for the facilities.'
+      },
+      
+      // Music Store Pro ratings
+      {
+        userId: normalUsers[1].id,
+        storeId: stores[16].id,
+        rating: 5,
+        comment: 'Amazing music store! Great selection of instruments and accessories.'
+      },
+      {
+        userId: normalUsers[8].id,
+        storeId: stores[16].id,
+        rating: 4,
+        comment: 'Good prices on guitars. Staff knows their instruments well.'
+      },
+      {
+        userId: normalUsers[11].id,
+        storeId: stores[16].id,
+        rating: 5,
+        comment: 'Perfect place for musicians! Found my dream piano here.'
+      },
+      
+      // Pharmacy Plus ratings
+      {
+        userId: normalUsers[0].id,
+        storeId: stores[17].id,
+        rating: 4,
+        comment: 'Convenient pharmacy with helpful pharmacists. Good service.'
+      },
+      {
+        userId: normalUsers[3].id,
+        storeId: stores[17].id,
+        rating: 5,
+        comment: 'Best pharmacy in the area! Always have what I need in stock.'
+      },
+      {
+        userId: normalUsers[9].id,
+        storeId: stores[17].id,
+        rating: 4,
+        comment: 'Friendly staff and good selection of health products.'
+      },
+      {
+        userId: normalUsers[12].id,
+        storeId: stores[17].id,
+        rating: 4,
+        comment: 'Reliable pharmacy with quick service. Great location too.'
       }
     ]);
     console.log('Ratings created:', ratings.length);
 
-    console.log('Database seeding completed successfully!');
-    console.log('\n=== DEMO ACCOUNTS ===');
+    console.log('\n✅ Database seeding completed successfully!');
+    console.log('\n' + '='.repeat(60));
+    console.log('📊 DATABASE SUMMARY');
+    console.log('='.repeat(60));
+    console.log(`👥 Total Users: ${1 + storeOwners.length + normalUsers.length}`);
+    console.log(`   - 1 Admin`);
+    console.log(`   - ${storeOwners.length} Store Owners`);
+    console.log(`   - ${normalUsers.length} Normal Users`);
+    console.log(`\n🏪 Total Stores: ${stores.length}`);
+    console.log(`\n⭐ Total Ratings: ${ratings.length}`);
+    console.log('\n' + '='.repeat(60));
+    console.log('🔑 DEMO ACCOUNTS');
+    console.log('='.repeat(60));
     console.log('Admin: admin@example.com / AdminPass123!');
     console.log('Store Owner: ganesh@store.com / StorePass123!');
     console.log('Normal Users: alice@example.com, bob@example.com, carol@example.com / UserPass123!');
-    console.log('\n=== STORE OWNERS ===');
+    console.log('\n' + '='.repeat(60));
+    console.log('🏪 STORE OWNERS & THEIR STORES');
+    console.log('='.repeat(60));
     console.log('Ganesh Adapnor: 3 stores (Tech, Coffee, Electronics)');
     console.log('Sarah Wilson: 2 stores (Fashion, Beauty)');
     console.log('Michael Chen: 2 stores (Grocery, Sports)');
     console.log('Emily Rodriguez: 3 stores (Books, Home Decor, Garden)');
+    console.log('James Anderson: 2 stores (Auto Parts, Pet Paradise)');
+    console.log('Lisa Thompson: 3 stores (Jewelry, Toys, Art Supplies)');
+    console.log('Robert Kim: 3 stores (Fitness Gym, Music Store, Pharmacy)');
+    console.log('='.repeat(60) + '\n');
 
   } catch (error) {
     console.error('Error seeding database:', error);

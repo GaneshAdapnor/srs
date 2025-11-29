@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { useToast } from '../../contexts/ToastContext';
 
 interface User {
   id: number;
@@ -42,6 +43,27 @@ const UsersList: React.FC = () => {
     role: 'user',
     isActive: true
   });
+  const { showSuccess, showError } = useToast();
+
+  // Check if user is a seeded demo account (protected)
+  const isSeededUser = (email: string): boolean => {
+    const seededEmails = [
+      'admin@example.com',
+      'ganesh@store.com',
+      'sarah@store.com',
+      'michael@store.com',
+      'emily@store.com',
+      'alice@example.com',
+      'bob@example.com',
+      'carol@example.com',
+      'david@example.com',
+      'eva@example.com',
+      'frank@example.com',
+      'grace@example.com',
+      'henry@example.com'
+    ];
+    return seededEmails.includes(email.toLowerCase());
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -95,16 +117,43 @@ const UsersList: React.FC = () => {
   };
 
   const handleDeleteUser = async (userId: number) => {
-    if (!window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+
+    // Check if it's a seeded user
+    if (isSeededUser(user.email)) {
+      showError('Cannot delete seeded demo account. This is a protected system account.');
+      return;
+    }
+
+    // Enhanced confirmation dialog
+    const confirmMessage = `Are you sure you want to delete "${user.name}" (${user.email})?\n\n` +
+      `This will permanently delete:\n` +
+      `• The user account\n` +
+      `• All ratings submitted by this user\n` +
+      `• All stores owned by this user (if any)\n\n` +
+      `This action cannot be undone!`;
+
+    if (!window.confirm(confirmMessage)) {
       return;
     }
 
     try {
-      await api.delete(`/admin/users/${userId}`);
+      const response = await api.delete(`/admin/users/${userId}`);
       setUsers(users.filter(user => user.id !== userId));
-      alert('User deleted successfully!');
+      
+      const deletedRatings = response.data?.deletedRatings || 0;
+      const deletedStores = response.data?.deletedStores || 0;
+      
+      let successMessage = 'User deleted successfully!';
+      if (deletedRatings > 0 || deletedStores > 0) {
+        successMessage += ` (${deletedRatings} rating(s) and ${deletedStores} store(s) also deleted)`;
+      }
+      
+      showSuccess(successMessage);
     } catch (error: any) {
-      alert(error.response?.data?.message || 'Failed to delete user');
+      const errorMessage = error.response?.data?.message || 'Failed to delete user';
+      showError(errorMessage);
     }
   };
 
@@ -119,9 +168,9 @@ const UsersList: React.FC = () => {
       ));
       setShowEditModal(false);
       setEditingUser(null);
-      alert('User updated successfully!');
+      showSuccess('User updated successfully!');
     } catch (error: any) {
-      alert(error.response?.data?.message || 'Failed to update user');
+      showError(error.response?.data?.message || 'Failed to update user');
     }
   };
 
@@ -252,9 +301,16 @@ const UsersList: React.FC = () => {
                   {user.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {user.name}
-                  </h3>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      {user.name}
+                    </h3>
+                    {isSeededUser(user.email) && (
+                      <span className="px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full" title="Protected demo account">
+                        🔒 Demo
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
               </div>
@@ -295,9 +351,15 @@ const UsersList: React.FC = () => {
                       e.stopPropagation();
                       handleDeleteUser(user.id);
                     }}
-                    className="px-3 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
+                    disabled={isSeededUser(user.email)}
+                    className={`px-3 py-1 text-xs rounded transition-colors ${
+                      isSeededUser(user.email)
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-red-100 text-red-700 hover:bg-red-200'
+                    }`}
+                    title={isSeededUser(user.email) ? 'Cannot delete demo account' : 'Delete user'}
                   >
-                    Delete
+                    {isSeededUser(user.email) ? '🔒 Protected' : 'Delete'}
                   </button>
                 </div>
                 <span className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">Click for details →</span>
@@ -329,7 +391,14 @@ const UsersList: React.FC = () => {
                     {selectedUser.name.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900">{selectedUser.name}</h3>
+                    <div className="flex items-center space-x-2">
+                      <h3 className="text-2xl font-bold text-gray-900">{selectedUser.name}</h3>
+                      {isSeededUser(selectedUser.email) && (
+                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full" title="Protected demo account">
+                          🔒 Demo Account
+                        </span>
+                      )}
+                    </div>
                     <p className="text-gray-600">{selectedUser.email}</p>
                     <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium mt-2 ${getRoleColor(selectedUser.role)}`}>
                       {getRoleIcon(selectedUser.role)} {selectedUser.role.replace('_', ' ')}

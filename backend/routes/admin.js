@@ -468,24 +468,62 @@ router.delete('/users/:id', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Check if user has ratings
+    // List of seeded demo account emails (protected from deletion)
+    const seededEmails = [
+      'admin@example.com',
+      'ganesh@store.com',
+      'sarah@store.com',
+      'michael@store.com',
+      'emily@store.com',
+      'alice@example.com',
+      'bob@example.com',
+      'carol@example.com',
+      'david@example.com',
+      'eva@example.com',
+      'frank@example.com',
+      'grace@example.com',
+      'henry@example.com'
+    ];
+
+    // Prevent deletion of seeded demo accounts
+    if (seededEmails.includes(user.email.toLowerCase())) {
+      return res.status(403).json({ 
+        message: 'Cannot delete seeded demo account. This is a protected system account.' 
+      });
+    }
+
+    // Get counts for information
     const ratingCount = await Rating.count({ where: { userId: id } });
-    if (ratingCount > 0) {
-      return res.status(400).json({ 
-        message: `Cannot delete user. They have ${ratingCount} rating(s). Please delete ratings first.` 
-      });
-    }
-
-    // Check if user owns stores
     const storeCount = await Store.count({ where: { ownerId: id } });
-    if (storeCount > 0) {
-      return res.status(400).json({ 
-        message: `Cannot delete user. They own ${storeCount} store(s). Please transfer or delete stores first.` 
-      });
+
+    // Cascade delete: Delete all ratings by this user
+    if (ratingCount > 0) {
+      await Rating.destroy({ where: { userId: id } });
     }
 
+    // Handle stores: Delete stores owned by this user (and their ratings)
+    if (storeCount > 0) {
+      // Get store IDs first
+      const stores = await Store.findAll({ where: { ownerId: id }, attributes: ['id'] });
+      const storeIds = stores.map(s => s.id);
+      
+      // Delete all ratings for these stores
+      if (storeIds.length > 0) {
+        await Rating.destroy({ where: { storeId: { [Op.in]: storeIds } } });
+      }
+      
+      // Delete the stores
+      await Store.destroy({ where: { ownerId: id } });
+    }
+
+    // Delete the user
     await user.destroy();
-    res.json({ message: 'User deleted successfully' });
+    
+    res.json({ 
+      message: 'User deleted successfully',
+      deletedRatings: ratingCount,
+      deletedStores: storeCount
+    });
   } catch (error) {
     console.error('User deletion error:', error);
     res.status(500).json({ message: 'Failed to delete user' });
